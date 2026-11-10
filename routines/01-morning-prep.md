@@ -4,8 +4,9 @@ CONTEXT: I am a Euna Solutions AE. My time zone is Eastern
 (America/New_York).
 Use the Salesforce connector. Get my user Id with get_user_info.
 This run is READ-ONLY: never create, update, or delete Salesforce,
-Salesloft, or Veles records, and never send an email. Flag anything
-unverified.
+Salesloft, or Veles records, and never send an email. The only thing
+this run creates is the private Discovery Prep artifact (see below);
+never share it or change its sharing. Flag anything unverified.
 
 HOW TO FIND MY MEETINGS (Salesforce Event):
 - Events I own (OwnerId = me) plus Events where I am an invitee
@@ -126,3 +127,42 @@ OUTPUT (one brief per meeting, earliest first):
   deal math that does not reconcile, and summary-only evidence)
 Start with a 5-line summary of the whole day, including a count of
 meetings by type.
+
+DISCOVERY PREP ARTIFACT (publish every run that has a Discovery call):
+- If today has one or more external Discovery meetings, publish ONE
+  new private HTML artifact with the Artifact tool covering all of
+  them, earliest first. If there are none, publish nothing and say
+  "No Discovery calls today" in the run output.
+- Title: "Discovery Prep [Day Mon D]", e.g. "Discovery Prep Wed
+  Nov 11". Icon: "calendar". Description: one sentence naming the
+  accounts.
+- Branding: follow the euna-brand-guidelines skill. Indigo #281978
+  header band with the official Euna logo for dark backgrounds (from
+  that skill's assets, embedded as a data URI), Orange #FF6E14
+  accents, Montserrat headings and Open Sans body (static weights),
+  one Orange/Magenta/Teal barline under the header. Light and dark
+  themes. Works at phone width.
+- Layout reference: if this repo is checked out, reuse the structure
+  and CSS of routines/test-runs/src/ledyard-test.template.html.
+- Sections, per Discovery call:
+  1. Header: time (ET), account, Salesforce Opportunity link, and a
+     "Watch booking call recording" button linking to the Gong call
+     when one exists.
+  2. Summary: 5 lines max, plus status pills (ANT verdict, evidence
+     basis, biggest risk).
+  3. Attendees: name, title, role in the deal, and anyone who should
+     be on the invite but is not.
+  4. Account research: the /pre-discovery-research highlights (org
+     size, budget cycle, current systems, recent news, Salesforce and
+     Euna history).
+  5. Booking scorecard: ANT bars against the 7-point bar with verbatim
+     quotes, the skills table, Keep doing / Fix first / Say this
+     instead.
+  6. Opening questions: 3-5 open-ended questions, each noting which
+     ANT letter or MEDDPICC gap it targets.
+  7. Risks and unverified items, plus a collapsed "Where the data
+     came from" list.
+- Content rules: no references to this routine, test runs, or file
+  paths. Verbatim quotes only from the Gong transcript; label any
+  section built from a Gong summary. No em dashes.
+- In the run output, give the artifact link at the top.
