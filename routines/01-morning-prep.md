@@ -15,8 +15,12 @@ HOW TO FIND MY MEETINGS (Salesforce Event):
   the same account/opportunity are ONE meeting. If their times differ,
   trust the '[Gong]' event (it mirrors my live calendar); the other
   is usually a meeting that was rescheduled.
-- Cross-check my Outlook calendar (read-only) for external attendees
-  missing from Salesforce. List any gaps; do not log them.
+- Cross-check my Outlook calendar (read-only). Outlook attendees are
+  the source of truth for who is invited. List any external meeting
+  missing from Salesforce and any attendee mismatch between Outlook
+  and the Salesforce EventRelations. Do not log or fix them.
+- Skip calendar items with no attendees (these are my call blocks,
+  usually titled with a prospect's name).
 - Skip internal-only meetings (no Contact, Account, Opportunity, or
   non-Euna attendee).
 
@@ -33,14 +37,36 @@ MEETING TYPES (classify every external meeting into ONE):
 If signals conflict, use the opportunity StageName and the last Gong
 call to decide, and state why. If still unclear, say so.
 
+GONG EVIDENCE RULES (apply everywhere Gong is used):
+- Find Gong calls by ACCOUNT, never by opportunity alone:
+  Gong__Gong_Call__c.Gong__Primary_Account__c = the account, plus
+  calls linked through Gong__Related_Account__c and
+  Gong__Related_Opportunity__c. Gong__Primary_Opportunity__c is
+  usually blank.
+- Use the full transcript first: Gong__Gong_Call__c.Gong_Transcript__c
+  (speaker-labeled text on the Conversation record). Quote it
+  verbatim.
+- If the transcript is blank (it can lag days after the call), fall
+  back to Gong__Call_Brief__c, Gong__Call_Key_Points__c and
+  Gong__Call_Highlights_Next_Steps__c, then to a Salesloft
+  transcription. Label every scorecard with its evidence basis
+  (transcript or summary) and set confidence to low on a summary.
+- Gong call link: the URL in the matching '[Gong]' Event description.
+
 SHARED PREP (every external meeting):
 - Account, opportunity (stage, amount, close date, forecast category),
   Next_Step_bf__c and Next_Step_Date_bf__c, MEDDPICC fields.
-- Last 90 days of Gong__Gong_Call__c briefs on the account and the
+- Last 90 days of Gong calls on the account (rules above) and the
   most recent Salesloft calls/emails with each attendee.
 - Attendees: name, title, role in the deal (champion, economic buyer,
   evaluator, blocker, unknown), first time in a meeting or not.
+- Stakeholders not on the invite: for school districts and other
+  sub-units, check the parent or related government body (town,
+  city, county) and whether it has a say in budget or purchasing.
 - What I committed to on the last call and whether it is done.
+- Deal math check: flag when Amount does not reconcile with Year 1
+  ARR plus services (Opportunity_ARR__c + Opportunity_Services__c),
+  and say which number the brief uses.
 
 TYPE-SPECIFIC PREP:
 1. Discovery: run /pre-discovery-research for the account and every
@@ -67,16 +93,22 @@ TYPE-SPECIFIC PREP:
 
 BOOKING TOUCH (Discovery and Demo only):
 Find who booked the meeting (CreatedBy on the 'Meeting Booked' Event;
-the account's BDR_Territory_Owner__c). Find the call or email that
-booked it in the 30 days before the Event was created:
-Gong__Gong_Call__c on the account, Salesloft calls and emails to the
-attendee. Run /call-scorecard on it. If none is found, write 'No
-booking touch found' and list where you looked. Do not guess.
+the account's BDR_Territory_Owner__c).
+- If I (the AE) created the 'Meeting Booked' Event within 2 hours
+  after a Gong call on the account ended, that Gong call is the
+  booking touch. Say "Booked by AE on [call name]".
+- Otherwise, find the call or email that booked it in the 30 days
+  before the Event was created: Gong calls on the account, Salesloft
+  calls and emails to the attendee.
+Run /call-scorecard on it, using the transcript per the Gong
+evidence rules. If none is found, write 'No booking touch found' and
+list where you looked. Do not guess.
 
 LAST-CALL CHECK (Demo Debrief, Pricing, Follow-up, Contracting):
 Run /call-scorecard on the most recent external call on this
-opportunity. Report ANT and the top coaching gap only. If none is
-found, write 'No prior call found' and list where you looked.
+account, using the transcript per the Gong evidence rules. Report
+ANT and the top coaching gap only. If none is found, write 'No prior
+call found' and list where you looked.
 
 LEFTOVERS: for any external meeting YESTERDAY that started after
 4:00 PM, run the follow-up steps from Routine 2.
@@ -90,6 +122,7 @@ OUTPUT (one brief per meeting, earliest first):
   the meeting type
 - Type-specific prep highlights (research, SE brief, debrief, pricing,
   follow-up, or contracting)
-- Risks and anything unverified
+- Risks and anything unverified (including attendee mismatches,
+  deal math that does not reconcile, and summary-only evidence)
 Start with a 5-line summary of the whole day, including a count of
 meetings by type.
