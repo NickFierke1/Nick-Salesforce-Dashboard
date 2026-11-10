@@ -1,0 +1,417 @@
+<title>Morning Prep Test Run</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap">
+<style>
+/* Layout: indigo masthead band, then a single 960px reading column of report sections; summary first, detail after. */
+:root {
+  --indigo: #281978;
+  --orange: #FF6E14;
+  --magenta: #CB007B;
+  --teal: #00A9E0;
+  --purple: #6145F7;
+
+  --bg: #F5F8FA;
+  --surface: #FFFFFF;
+  --surface-alt: #ECF0F4;
+  --line: #E2E8EF;
+  --fg: #000000;
+  --fg-soft: #3B3F55;
+  --heading: #281978;
+  --accent-text: #B84A00;
+  --band: #281978;
+  --band-fg: #FFFFFF;
+  --band-soft: #E2E8EF;
+
+  --ok-bg: #E3F5EC; --ok-fg: #0E6B3B;
+  --warn-bg: #FFF0E5; --warn-fg: #9A3D00;
+  --bad-bg: #FBE6F1; --bad-fg: #9A005D;
+  --info-bg: #E9E6FD; --info-fg: #3A23B8;
+
+  --font-head: 'Montserrat', Arial, sans-serif;
+  --font-body: 'Open Sans', Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E0B24; --surface: #17123A; --surface-alt: #1F1950; --line: #2E2766;
+    --fg: #E9ECF3; --fg-soft: #B7BCD0; --heading: #C9C0FF; --accent-text: #FF9A57;
+    --band: #1B1157; --band-fg: #FFFFFF; --band-soft: #E2E8EF;
+    --ok-bg: #12352A; --ok-fg: #7FE0AE; --warn-bg: #3A2310; --warn-fg: #FFB27A;
+    --bad-bg: #3A1030; --bad-fg: #FF8BCB; --info-bg: #231C5C; --info-fg: #BDB2FF;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E0B24; --surface: #17123A; --surface-alt: #1F1950; --line: #2E2766;
+  --fg: #E9ECF3; --fg-soft: #B7BCD0; --heading: #C9C0FF; --accent-text: #FF9A57;
+  --band: #1B1157; --band-fg: #FFFFFF; --band-soft: #E2E8EF;
+  --ok-bg: #12352A; --ok-fg: #7FE0AE; --warn-bg: #3A2310; --warn-fg: #FFB27A;
+  --bad-bg: #3A1030; --bad-fg: #FF8BCB; --info-bg: #231C5C; --info-fg: #BDB2FF;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+a { color: var(--heading); text-underline-offset: 2px; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+.wrap { max-width: 960px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* Masthead */
+.band { background: var(--band); color: var(--band-fg); }
+.band .wrap { padding-block: 28px 30px; display: grid; gap: 22px; }
+.logo { padding: 8px 0; }
+.logo img { width: 132px; height: auto; display: block; }
+.mast { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: end; justify-content: space-between; }
+.eyebrow { font-family: var(--font-head); font-weight: 600; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--orange); margin: 0 0 6px; }
+h1 { font-family: var(--font-head); font-weight: 700; font-size: clamp(26px, 4.4vw, 36px); line-height: 1.15; margin: 0; text-wrap: balance; }
+.mast p.sub { margin: 8px 0 0; color: var(--band-soft); max-width: 60ch; }
+.meta { display: grid; gap: 4px; font-size: 13px; color: var(--band-soft); }
+.meta b { color: var(--band-fg); font-weight: 600; }
+.ro { display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; padding: 3px 10px; font-size: 12px; font-weight: 600; color: var(--band-fg); width: fit-content; }
+.ro::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--teal); }
+.euna-barline { height: 4px; width: 100%; background: linear-gradient(to right, #FF6E14 0%, #FF6E14 33.33%, #CB007B 33.33%, #CB007B 66.66%, #00A9E0 66.66%, #00A9E0 100%); }
+
+nav.toc { border-bottom: 1px solid var(--line); background: var(--surface); }
+nav.toc .wrap { display: flex; gap: 6px; flex-wrap: wrap; padding-block: 10px; }
+nav.toc a { font-family: var(--font-head); font-weight: 600; font-size: 12.5px; text-decoration: none; color: var(--heading); padding: 6px 10px; border-radius: 6px; }
+nav.toc a:hover { background: var(--surface-alt); }
+
+main .wrap { padding-block: 28px 56px; display: grid; gap: 40px; }
+section { display: grid; gap: 14px; min-width: 0; scroll-margin-top: 12px; }
+h2 { font-family: var(--font-head); font-weight: 700; font-size: 22px; color: var(--heading); margin: 0; text-wrap: balance; }
+h2 small { display: block; font-family: var(--font-body); font-weight: 400; font-size: 13.5px; color: var(--fg-soft); margin-top: 4px; }
+h3 { font-family: var(--font-head); font-weight: 600; font-size: 16px; color: var(--heading); margin: 0; }
+p { margin: 0; }
+.muted { color: var(--fg-soft); }
+
+/* Summary */
+.summary { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; display: grid; gap: 16px; }
+.summary ol { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+.summary li::marker { color: var(--orange); font-family: var(--font-head); font-weight: 700; }
+.verdicts { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; border-radius: 999px; padding: 3px 10px; white-space: nowrap; }
+.pill.ok { background: var(--ok-bg); color: var(--ok-fg); }
+.pill.warn { background: var(--warn-bg); color: var(--warn-fg); }
+.pill.bad { background: var(--bad-bg); color: var(--bad-fg); }
+.pill.info { background: var(--info-bg); color: var(--info-fg); }
+
+/* Facts */
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.fact { background: var(--surface); padding: 14px 16px; display: grid; gap: 2px; min-width: 0; }
+.fact .k { font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--fg-soft); font-weight: 600; }
+.fact .v { font-family: var(--font-head); font-weight: 700; font-size: 19px; color: var(--heading); font-variant-numeric: tabular-nums; }
+.fact .n { font-size: 12.5px; color: var(--fg-soft); }
+
+.goal { border-left: 4px solid var(--orange); background: var(--surface); padding: 14px 18px; border-radius: 0 8px 8px 0; }
+.goal b { font-family: var(--font-head); color: var(--heading); }
+
+/* Tables */
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+th { font-family: var(--font-head); font-weight: 600; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--heading); background: var(--surface-alt); white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-alt) 45%, var(--surface)); }
+td.num { font-family: var(--font-head); font-weight: 700; color: var(--heading); font-variant-numeric: tabular-nums; white-space: nowrap; }
+q { quotes: "\201C" "\201D"; font-style: italic; color: var(--fg-soft); }
+
+/* Scorecard */
+.verdict-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.ant { display: grid; gap: 14px; }
+.ant-row { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; grid-template-columns: 120px 1fr; gap: 6px 18px; align-items: start; }
+.ant-row .letter { font-family: var(--font-head); font-weight: 700; color: var(--heading); display: grid; gap: 2px; }
+.ant-row .letter span { font-size: 28px; line-height: 1; font-variant-numeric: tabular-nums; }
+.ant-row .letter small { font-size: 12px; color: var(--fg-soft); font-weight: 600; }
+.meter { position: relative; height: 10px; background: var(--surface-alt); border-radius: 5px; margin: 6px 0 10px; }
+.meter i { position: absolute; inset: 0 auto 0 0; border-radius: 5px; background: var(--orange); }
+.meter::after { content: ""; position: absolute; left: 66.67%; top: -4px; bottom: -4px; width: 2px; background: var(--heading); }
+.meter-legend { font-size: 11.5px; color: var(--fg-soft); margin-top: -6px; margin-bottom: 8px; }
+.ant-row .ask { font-size: 13.5px; }
+.ant-row .ask b { color: var(--accent-text); }
+@media (max-width: 560px) { .ant-row { grid-template-columns: 1fr; } }
+
+.coach { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.coach > div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.coach .say { background: var(--indigo); border-color: var(--indigo); color: #FFFFFF; }
+.coach .say h3 { color: var(--orange); }
+.coach .say p { font-size: 15.5px; }
+
+/* Questions */
+.qs { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: q; }
+.qs li { counter-increment: q; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px 12px 54px; position: relative; font-size: 15.5px; }
+.qs li::before { content: counter(q); position: absolute; left: 14px; top: 11px; width: 26px; height: 26px; border-radius: 50%; background: var(--orange); color: #000; font-family: var(--font-head); font-weight: 700; font-size: 13px; display: grid; place-items: center; }
+.qs li small { display: block; color: var(--fg-soft); font-size: 12.5px; margin-top: 2px; }
+
+/* SE brief */
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.card ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.card h3 .tag { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin-left: 8px; }
+.card.show h3 .tag { color: var(--ok-fg); }
+.card.avoid h3 .tag { color: var(--bad-fg); }
+.card.risk { border-color: var(--orange); }
+
+details.src { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; }
+details.src summary { cursor: pointer; font-family: var(--font-head); font-weight: 600; color: var(--heading); }
+details.src ul { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 4px; font-size: 14px; }
+
+footer { border-top: 1px solid var(--line); }
+footer .wrap { padding-block: 20px 32px; font-size: 12.5px; color: var(--fg-soft); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+</style>
+
+<header class="band">
+  <div class="wrap">
+    <div class="logo"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3MjAgMjgzIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmY2ZTE0OwogICAgICB9CgogICAgICAuY2xzLTEsIC5jbHMtMiB7CiAgICAgICAgc3Ryb2tlLXdpZHRoOiAwcHg7CiAgICAgIH0KCiAgICAgIC5jbHMtMiB7CiAgICAgICAgZmlsbDogI2ZmZjsKICAgICAgfQogICAgPC9zdHlsZT4KICA8L2RlZnM+CiAgPGc+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik02ODIuMSwxNjAuOTJzLTE2LjMtMjcuOS01Ny45LTI2LjhoLS4yYy00MS42LTEuMS01Ny45LDI2LjgtNTcuOSwyNi44bDE5LTQxLjNjMTEuMy00LjksMjQuNC03LjUsMzktNy41czI4LjIsMi42LDM4LjksN2wxOS4zLDQyIi8+CiAgICA8Zz4KICAgICAgPGc+CiAgICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJNMjUsMTYwLjgyaDEyMi44djIyLjNIMFYxMy4yMmgxNDUuNHYyMi4zSDI1djQ5aDEwNS44djIyLjNIMjV2NTRaIi8+CiAgICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJNMTcwLjEsMTE2LjEyVjEzLjIyaDI1djEwMWMwLDMyLDE2LjcsNDksNDcuOCw0OWgzLjljMzEuMSwwLDQ3LjgtMTcsNDcuOC00OVYxMy4yMmgyNXYxMDIuOWMwLDQyLjUtMjUuNyw2OS40LTc0LjgsNjkuNHMtNzQuNy0yNi45LTc0LjctNjkuNFoiLz4KICAgICAgICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik00ODMuNCwxMy4yMmgyNXYxNjkuOWgtMzQuNWwtOTguOC0xNDJ2MTQyaC0yNVYxMy4yMmgzNC41bDk4LjgsMTQyVjEzLjIyaDBaIi8+CiAgICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJNNTU1LjksMTgzLjEyaC0yNi45TDYwOC4zLDEzLjIyaDMyLjVsNzkuMiwxNjkuOWgtMjcuN2wtNjguMi0xNDguNWgwbC02OC4yLDE0OC41WiIvPgogICAgICA8L2c+CiAgICAgIDxnPgogICAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTE0OC45LDI2Ny40Mmg4LjNjLjQsNC43LDUuMyw2LjksMTEuMSw2LjloMS4yYzYuNCwwLDEwLjMtMS41LDEwLjMtNS4xLDAtMi42LTEuOC00LjEtOC4xLTUuNGwtNi45LTEuM2MtOC42LTEuNy0xMy45LTQuNi0xMy45LTExLjcsMC04LjIsOC0xMi42LDE3LjktMTIuNiwxMi45LDAsMTkuMyw1LjQsMTkuOSwxMy42aC04LjNjLS40LTMuOC00LjEtNi45LTExLjEtNi45aC0xLjJjLTYsMC05LjIsMi4xLTkuMiw1LjIsMCwyLjQsMS41LDMuNyw4LjIsNWw2LjQsMS4yYzguNywxLjcsMTQuMiw1LDE0LjIsMTIuM3MtNy4yLDEyLjQtMTkuMSwxMi40Yy0xMi40LDAtMTkuMi01LjMtMTkuNy0xMy42WiIvPgogICAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTE5OSwyNTkuNTJjMC0xMy4xLDkuNi0yMS41LDIzLjUtMjEuNXMyMy41LDguNCwyMy41LDIxLjUtOS43LDIxLjUtMjMuNSwyMS41LTIzLjUtOC40LTIzLjUtMjEuNVpNMjIzLjEsMjc0LjMyYzguMywwLDE0LjctNS41LDE0LjctMTQuN3MtNi40LTE0LjctMTQuNy0xNC43aC0xLjJjLTguNCwwLTE0LjcsNS41LTE0LjcsMTQuN3M2LjMsMTQuNywxNC43LDE0LjdoMS4yWiIvPgogICAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTI1OC42LDI4MC4yMnYtNTcuOWg4LjF2NTcuOWgtOC4xWiIvPgogICAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTI4Mi4xLDI2NC43MnYtMjUuOGg4LjF2MjMuOWMwLDcuNCwzLjEsMTEuNSwxMC4xLDExLjVoMS4yYzcuMSwwLDEzLjUtNS4zLDEzLjUtMTQuMXYtMjEuMmg4LjF2NDEuM2gtOC4xdi03LjVjLTIuNiw0LjYtNy42LDguNC0xNS42LDguNC0xMS4zLS4yLTE3LjMtNi42LTE3LjMtMTYuNVoiLz4KICAgICAgICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik0zNTQuMywyODAuMjJjLTUuOCwwLTkuMS0zLjMtOS4xLTkuMXYtMjUuM2gtMTAuN3YtNi45aDEwLjd2LTEzLjRoOC4xdjEzLjRoMTMuM3Y2LjloLTEzLjN2MjMuOWMwLDIuNS44LDMuMywzLjMsMy4zaDExLjh2Ny4yaC0xNC4xWiIvPgogICAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTM4MS43LDIzMS42MnYtOS4zaDkuMXY5LjNoLTkuMVpNMzgyLjIsMjgwLjIydi00MS4zaDguMXY0MS4zaC04LjFaIi8+CiAgICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJNNDA0LjMsMjU5LjUyYzAtMTMuMSw5LjYtMjEuNSwyMy41LTIxLjVzMjMuNSw4LjQsMjMuNSwyMS41LTkuNywyMS41LTIzLjUsMjEuNS0yMy41LTguNC0yMy41LTIxLjVaTTQyOC40LDI3NC4zMmM4LjMsMCwxNC43LTUuNSwxNC43LTE0LjdzLTYuNC0xNC43LTE0LjctMTQuN2gtMS4yYy04LjQsMC0xNC43LDUuNS0xNC43LDE0LjdzNi4zLDE0LjcsMTQuNywxNC43aDEuMloiLz4KICAgICAgICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik00NjMuMiwyODAuMjJ2LTQxLjNoOC4xdjYuOWMzLTQuNCw4LTcuNywxNS45LTcuNywxMS4zLDAsMTcuNyw3LjIsMTcuNywxN3YyNS4xaC04LjF2LTIzLjFjMC03LjMtMy4yLTEyLjItMTAuNC0xMi4yaC0xLjJjLTcuMiwwLTEzLjksNS44LTEzLjksMTQuNXYyMC44aC04LjFaIi8+CiAgICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJNNTE2LjIsMjY3LjQyaDguM2MuNCw0LjcsNS4zLDYuOSwxMS4xLDYuOWgxLjJjNi40LDAsMTAuMy0xLjUsMTAuMy01LjEsMC0yLjYtMS44LTQuMS04LjEtNS40bC02LjktMS4zYy04LjYtMS43LTEzLjktNC42LTEzLjktMTEuNywwLTguMiw4LTEyLjYsMTcuOS0xMi42LDEyLjksMCwxOS4zLDUuNCwxOS45LDEzLjZoLTguM2MtLjQtMy44LTQuMS02LjktMTEuMS02LjloLTEuMmMtNiwwLTkuMiwyLjEtOS4yLDUuMiwwLDIuNCwxLjUsMy43LDguMiw1bDYuNCwxLjJjOC43LDEuNywxNC4yLDUsMTQuMiwxMi4zcy03LjIsMTIuNC0xOS4xLDEyLjRjLTEyLjMsMC0xOS4yLTUuMy0xOS43LTEzLjZaIi8+CiAgICAgIDwvZz4KICAgIDwvZz4KICA8L2c+CiAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJNNjkxLjM0LDMwLjQ2VjEyLjdoOS44YzEuMTcsMCwyLjIuMjEsMy4xLjYzLjkuNDIsMS42LDEsMi4xMSwxLjczcy43NiwxLjU2Ljc2LDIuNDljMCwuNzYtLjE0LDEuNDQtLjQxLDIuMDMtLjI3LjU5LS42MiwxLjA4LTEuMDUsMS40N3MtLjg5LjY3LTEuMzguODRjLjkzLDAsMS41OC4yMSwxLjk0LjYzLjM2LjQyLjU1LDEuMDguNTUsMS45OHY1Ljk2aC0zLjEydi01LjI1YzAtLjYzLS4xMS0xLjA1LS4zNC0xLjI4LS4yMy0uMjMtLjY2LS4zNC0xLjMxLS4zNGgtNy41MXY2Ljg4aC0zLjEyWk02OTQuNDYsMjAuNzloNi4yOWMuOTYsMCwxLjcxLS4yNCwyLjI1LS43Mi41My0uNDguOC0xLjE0LjgtMS45N3MtLjI3LTEuNDYtLjgtMS45M2MtLjUzLS40Ny0xLjI4LS43MS0yLjI1LS43MWgtNi4yOXY1LjMzWiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTY5OS4yMiwzOC41OGMtOS4zNywwLTE3LTcuNjMtMTctMTdzNy42My0xNywxNy0xNywxNyw3LjYzLDE3LDE3LTcuNjMsMTctMTcsMTdaTTY5OS4yMiw2LjU4Yy04LjI3LDAtMTUsNi43My0xNSwxNXM2LjczLDE1LDE1LDE1LDE1LTYuNzMsMTUtMTUtNi43My0xNS0xNS0xNVoiLz4KPC9zdmc+" alt="Euna Solutions logo"></div>
+    <div class="mast">
+      <div>
+        <p class="eyebrow">Routine 1 · Morning Prep · Test run</p>
+        <h1>Ledyard Public Schools Grants Demo</h1>
+        <p class="sub">The new Morning Prep routine, run as if it were 5:00 AM on Fri Nov 6, 2026. It used only data that existed before the call, then I checked the brief against what Gong recorded.</p>
+      </div>
+      <div class="meta">
+        <span class="ro">Read-only run</span>
+        <span>Meeting <b>Fri Nov 6 · 2:00 PM ET</b></span>
+        <span>Test run <b>Nov 10, 2026</b></span>
+        <span>Routine file <b>routines/01-morning-prep.md</b></span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="euna-barline" role="presentation"></div>
+
+<nav class="toc" aria-label="Sections">
+  <div class="wrap">
+    <a href="#summary">Summary</a>
+    <a href="#meeting">Meeting</a>
+    <a href="#scorecard">Booking scorecard</a>
+    <a href="#questions">Opening questions</a>
+    <a href="#se-brief">SE brief</a>
+    <a href="#validation">Brief vs. actual</a>
+    <a href="#gaps">Routine gaps</a>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+
+    <section id="summary">
+      <h2>Day summary<small>The 5-line summary the routine would have produced that morning</small></h2>
+      <div class="summary">
+        <ol>
+          <li>One external meeting: the <b>Ledyard Grants Demo at 2:00 PM ET</b>. The NFTA Engineering Procurement Demo at 9:00 AM would also have been briefed; this test covers Ledyard only.</li>
+          <li>Type: <b>Demo</b>. The routine ran the SE brief, the shared prep, and the booking-touch scorecard.</li>
+          <li>The 6 Outlook items that afternoon and on Nov 9 have a person's name as the subject and no attendees. The routine treated them as your call blocks.</li>
+          <li>You booked the meeting yourself on the Oct 22 Discovery call. Evan Krychowski is the account's BDR but did not book it.</li>
+          <li><b>Biggest risk:</b> Ken Knight, Director of Finance and the likely budget holder, was not on the invite.</li>
+        </ol>
+        <div class="verdicts">
+          <span class="pill info">Type: Demo</span>
+          <span class="pill bad">ANT: Not yet qualified (0 of 3)</span>
+          <span class="pill ok">Brief matched the call on 4 of 5 checks</span>
+          <span class="pill warn">7 routine fixes proposed</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="meeting">
+      <h2>Meeting brief<small>2:00 to 3:00 PM ET · Microsoft Teams · <a href="https://euna.my.salesforce.com/006OL00000ppAPmYAM" target="_blank" rel="noopener">Open opportunity in Salesforce</a></small></h2>
+      <div class="facts">
+        <div class="fact"><span class="k">Stage</span><span class="v">Alignment</span><span class="n">Pipeline · 5%</span></div>
+        <div class="fact"><span class="k">Year 1 ARR</span><span class="v">$18,625</span><span class="n">List $20,365 · 8.5% off</span></div>
+        <div class="fact"><span class="k">Services</span><span class="v">$26,750</span><span class="n">200 PS hours</span></div>
+        <div class="fact"><span class="k">Close date</span><span class="v">May 3, 2027</span><span class="n">FY starts Jul 1</span></div>
+        <div class="fact"><span class="k">Pricing approval</span><span class="v">Required</span><span class="n">Not yet approved</span></div>
+      </div>
+      <p class="muted">An existing Euna Marketplace customer (Feb 2027 renewal, Dek Prentice). 2,418 students. Runs Tyler Munis. This is a cross-sell.</p>
+
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Attendee</th><th>Role in the deal</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td><b>Jennifer DeBell</b><br><span class="muted">Asst. Director of Finance</span></td><td><span class="pill info">Likely champion</span></td><td>Primary contact. She said she would attend alone and share the recording internally.</td></tr>
+            <tr><td><b>Ken Knight</b><br><span class="muted">Director of Finance</span></td><td><span class="pill warn">Likely economic buyer</span></td><td><b>Not invited.</b> In September he asked you to clarify your role vs. Rex's.</td></tr>
+            <tr><td><b>Julien Nelson</b> (SE), <b>Ian McMahon</b>, <b>Anna Valdez</b></td><td><span class="pill ok">Euna team</span></td><td>Salesforce lists Allison Wells where Outlook lists Anna Valdez. Flagged.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="goal"><b>Meeting goal:</b> Jen leaves with a recording and pricing she can take into the FY27 budget process, and agrees to bring Ken into the next meeting.</div>
+    </section>
+
+    <section id="scorecard">
+      <h2>Booking scorecard<small>Oct 22 Discovery call · 19 min · <a href="https://us-92821.app.gong.io/call?id=8703819032426229305" target="_blank" rel="noopener">Open in Gong</a></small></h2>
+      <div class="verdict-bar">
+        <span class="pill info">Overall: not scored (2 of 6 skills)</span>
+        <span class="pill bad">Not yet qualified · 0 of 3 at 7+</span>
+        <span class="pill ok">Next step dated: Yes</span>
+        <span class="pill warn">Confidence: low (Gong summary only)</span>
+      </div>
+
+      <div class="ant">
+        <div class="ant-row">
+          <div class="letter"><small>Authority</small><span>5</span></div>
+          <div>
+            <div class="meter" role="img" aria-label="Authority 5 of 10"><i style="width:50%"></i></div>
+            <p><q>Jen will attend the initial Euna Grants demo alone, with a recording provided for internal sharing.</q></p>
+            <p class="ask"><b>Ask:</b> "Who besides you would need to weigh in before this goes into next year's budget?"</p>
+          </div>
+        </div>
+        <div class="ant-row">
+          <div class="letter"><small>Need</small><span>6</span></div>
+          <div>
+            <div class="meter" role="img" aria-label="Need 6 of 10"><i style="width:60%"></i></div>
+            <p><q>they likely miss grant opportunities due to lack of awareness, insufficient manpower for writing/submission</q></p>
+            <p class="ask"><b>Ask:</b> "Roughly how much funding do you think walked past you last year?"</p>
+          </div>
+        </div>
+        <div class="ant-row">
+          <div class="letter"><small>Timeline</small><span>6</span></div>
+          <div>
+            <div class="meter" role="img" aria-label="Timeline 6 of 10"><i style="width:60%"></i></div>
+            <p><q>currently in its budget process for the upcoming fiscal year</q></p>
+            <p class="ask"><b>Ask:</b> "When does the FY27 budget lock, and when would this need to be live?"</p>
+          </div>
+        </div>
+        <p class="meter-legend">The dark tick marks 7, Euna's bar for a letter to count. A booked meeting needs 2 of 3 letters at 7 or higher.</p>
+      </div>
+
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Skill</th><th>Score</th><th>Evidence (Gong summary)</th></tr></thead>
+          <tbody>
+            <tr><td>Opener</td><td class="num">n/a</td><td class="muted">The opening is not described</td></tr>
+            <tr><td>Personalization</td><td class="num">n/a</td><td class="muted">Nothing shows you referencing earlier context</td></tr>
+            <tr><td>Questioning</td><td class="num">6</td><td>Covered process, team, volume, funding shift and budget cycle. Impact was never quantified.</td></tr>
+            <tr><td>Objection handling</td><td class="num">n/a</td><td class="muted">No objection came up</td></tr>
+            <tr><td>Word usage</td><td class="num">n/a</td><td class="muted">A summary can't show word choice</td></tr>
+            <tr><td>Close</td><td class="num">7</td><td><q>confirmed a grants demonstration for November 6th from 2:00 PM to 3:00 PM.</q> The invite went out the same day. Ken was not added.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="coach">
+        <div><h3>MEDDPICC touched</h3><p>The pain, and part of how they decide.</p><p><b>Biggest gap:</b> the economic buyer (Ken).</p></div>
+        <div><h3>Fix first</h3><p>You accepted "attend alone" without trying to bring in Ken.</p></div>
+        <div class="say"><h3>Say this instead</h3><p>"Happy to record it. Since this would land in Ken's budget, would it save you a step to have him join for the last 15 minutes?"</p></div>
+      </div>
+    </section>
+
+    <section id="questions">
+      <h2>Open the call with these<small>Open-ended, in the order you'd ask them</small></h2>
+      <ol class="qs">
+        <li>"Since we talked on Oct 22, what's changed in how you're approaching grants for next year's budget?"<small>Reopens the pain and checks for anything new</small></li>
+        <li>"You mentioned wanting an 'Indeed-like' way to find grants. Walk me through what a good week would look like for you."<small>Gives Julien what to show, in her words</small></li>
+        <li>"What would it mean for the district to capture even two or three of the grants you're missing today?"<small>Raises Need from 6 toward 7+</small></li>
+        <li>"When you share this recording with Ken and the grant coordinator, what will they want to see first?"<small>Raises Authority and maps who's involved</small></li>
+        <li>"What needs to happen, and by when, for this to make it into the budget that starts July 1?"<small>Raises Timeline with a dated event</small></li>
+      </ol>
+    </section>
+
+    <section id="se-brief">
+      <h2>SE brief for Julien<small>From the last 90 days of Gong summaries, the opportunity record, and the pre-call Next Step</small></h2>
+      <div class="grid2">
+        <div class="card">
+          <h3>Their pain</h3>
+          <ul>
+            <li>Federal education money is shrinking, so they need state and other agency grants.</li>
+            <li>They miss grants because they don't know about them or lack staff to write them.</li>
+            <li>Grant work is split across schools, which spreads W9s everywhere.</li>
+          </ul>
+          <p class="muted">These are Gong's paraphrases. No verbatim transcript was available.</p>
+        </div>
+        <div class="card">
+          <h3>The people</h3>
+          <ul>
+            <li><b>Jen:</b> runs the process day to day and asked for automation.</li>
+            <li><b>Ken:</b> owns the budget. Not on the call.</li>
+            <li><b>Grant coordinator</b> (federal grants) and the <b>Special Ed department</b> (state grants): both unnamed so far.</li>
+          </ul>
+        </div>
+        <div class="card show">
+          <h3>What to show <span class="tag">Show</span></h3>
+          <ul>
+            <li>GrantExec search and matching (her "Indeed-like" ask)</li>
+            <li>One place to track grants across schools and departments</li>
+            <li>Post-award compliance tasks and reminders</li>
+            <li>The Munis integration</li>
+          </ul>
+        </div>
+        <div class="card avoid">
+          <h3>What to avoid <span class="tag">Avoid</span></h3>
+          <ul>
+            <li>Letting the Marketplace vendor and PO issues take over the demo. Acknowledge them and hand them to Rex.</li>
+            <li>Enterprise-scale features. They handle 20 to 30 grants a year.</li>
+          </ul>
+        </div>
+        <div class="card risk">
+          <h3>Pricing risk</h3>
+          <p>$26.75K for 200 hours of services against an $18.6K ARR may look heavy for a district your note says manages "less than 5 million in funds."</p>
+          <p class="muted">That figure is unverified: it came from a 2-minute call that Gong logged as a gatekeeper.</p>
+        </div>
+        <div class="card">
+          <h3>Open questions</h3>
+          <ul>
+            <li>Who owns the grant coordinator role?</li>
+            <li>Does the Special Ed department join the platform?</li>
+            <li>Is Ken the signer?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="validation">
+      <h2>Brief vs. what happened<small>Checked against the Nov 6 Gong summary</small></h2>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>What the brief said</th><th>What Gong recorded</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr><td>Marketplace issues would come up</td><td>They did, and a call with Misha was set up</td><td><span class="pill ok">Correct</span></td></tr>
+            <tr><td>Ken is the gap in who decides</td><td><q>Jen committed to presenting the platform to her finance director</q></td><td><span class="pill ok">Correct</span></td></tr>
+            <tr><td>Show Munis</td><td>It was shown</td><td><span class="pill ok">Correct</span></td></tr>
+            <tr><td>Budget timing drives the deal</td><td>Pricing doc sent for internal review</td><td><span class="pill ok">Correct</span></td></tr>
+            <tr><td>Who else is involved</td><td>The Town of Ledyard came up as a stakeholder</td><td><span class="pill bad">Missed</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="gaps">
+      <h2>Routine gaps the test exposed<small>Proposed fixes to routines/01-morning-prep.md. Not applied yet.</small></h2>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>#</th><th>Gap</th><th>Proposed fix</th><th>Impact</th></tr></thead>
+          <tbody>
+            <tr><td class="num">1</td><td>Gong transcripts aren't in Salesforce, so every scorecard is low confidence and usually can't produce an overall score</td><td>Pull the Salesloft transcription when one exists. Otherwise say plainly that the score came from a summary.</td><td><span class="pill bad">High</span></td></tr>
+            <tr><td class="num">2</td><td>None of Ledyard's Gong call records are linked to the opportunity</td><td>Always look up Gong calls by account, never by opportunity</td><td><span class="pill bad">High</span></td></tr>
+            <tr><td class="num">3</td><td>You booked the meeting during the Discovery call itself</td><td>Add a rule: if the AE booked it during a Gong call, that call is the booking touch</td><td><span class="pill warn">Medium</span></td></tr>
+            <tr><td class="num">4</td><td>Outlook call blocks look like meetings</td><td>Skip calendar items that have no attendees</td><td><span class="pill warn">Medium</span></td></tr>
+            <tr><td class="num">5</td><td>The Salesforce invite list doesn't match Outlook (Allison Wells vs. Anna Valdez)</td><td>Treat Outlook attendees as the source of truth and flag differences</td><td><span class="pill warn">Medium</span></td></tr>
+            <tr><td class="num">6</td><td>Unclear deal amount: the $87,956 Amount doesn't equal ARR plus services ($45,375)</td><td>Flag mismatches like this in the risks section</td><td><span class="pill info">Low</span></td></tr>
+            <tr><td class="num">7</td><td>The brief missed the Town of Ledyard as a stakeholder</td><td>For school districts, check the parent or related government body</td><td><span class="pill info">Low</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="src">
+        <summary>Where the data came from</summary>
+        <ul>
+          <li>Salesforce: the Opportunity, Account and Contact records, both Ledyard Events ("Meeting Booked" and "[Gong]"), and the Event invitee list</li>
+          <li>Gong call records in Salesforce: 8 calls on the account, back to Jun 2025</li>
+          <li>Salesforce Tasks: 21 emails and calls since Sep 1, 2026, including Salesloft activity</li>
+          <li>Next Step as of the morning of Nov 6: the Oct 26 entry in the Next Step history. The current field was rewritten after the call, on Nov 7.</li>
+          <li>Outlook calendar, Nov 6 to Nov 10 (read-only)</li>
+        </ul>
+      </details>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Euna Solutions® · Internal working document · Read-only run, no records changed</span>
+    <span>Data checked Nov 10, 2026</span>
+  </div>
+</footer>
